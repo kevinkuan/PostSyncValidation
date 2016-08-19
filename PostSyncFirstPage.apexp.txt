@@ -1,0 +1,15 @@
+<apex:page sidebar="false" controller="PostSyncValidator">
+    <apex:form >
+        <apex:outputText >  After you connect your org to an external data source and create external objects, use this tool to validate access to the external data. Run queries to find issues and incompatibilities before your users try to access the external data. </apex:outputText>
+        <p>            
+        </p>
+        <apex:pageBlock title="Select an external object:">
+            <apex:selectList size="1"  value="{!objString}">
+                <apex:selectOptions value="{!selectedObject}" />		
+            </apex:selectList>
+            <apex:commandButton action="{!secondPage}" value="Validate" status="pageStatus"/>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>
+                 

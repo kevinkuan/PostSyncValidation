@@ -1,0 +1,55 @@
+<apex:page sidebar="false" controller="PostSyncValidator" showHeader="true" standardStylesheets="true">
+    <apex:form id="form">
+        <apex:pageBlock title="Select the types of queries to run on {!objName}" id="block">
+            <apex:pageBlockTable value="{!categoryList}" var="cw" id="table">
+                <apex:column >
+					<apex:facet name="header">
+                        <apex:outputPanel >
+                            <apex:inputCheckbox value="{!selectAllCategories}">
+                            <apex:actionSupport event="onclick" action="{!selectAll}" rerender="table"/>    
+                        </apex:inputCheckbox>
+                        </apex:outputPanel>                 
+               	 </apex:facet>
+                 <apex:inputCheckbox value="{!cw.selected}"/>
+                </apex:column>
+                    <apex:column value="{!cw.name}" headerValue="Category"/> 
+                <apex:column value="{!cw.description}" headerValue="Description"/>      
+             </apex:pageBlockTable>
+            <apex:commandButton value="Run Queries" action="{!runQueries}" reRender="form" status="pageStatus"/>
+        </apex:pageBlock>
+        
+        <apex:actionStatus id="pageStatus">
+            <apex:facet name="start">
+                <apex:outputPanel >
+                    <img src="/img/loading32.gif" width="25" height="25" />
+                    <apex:outputLabel value="Running Queries..."/>
+                </apex:outputPanel>            
+            </apex:facet>
+        </apex:actionStatus>
+
+        <apex:actionSupport event="onchange" reRender="form" />
+        <apex:pageBlock title="Failed Queries" id="failBlock" rendered="{!showFailTable}">
+           <apex:actionSupport event="onchange" reRender="form" />
+            	<apex:pageBlockTable value="{!queriesFailed}" var="qw">
+                    <apex:column value="{!qw.categoryName}" headerValue="Category"/>
+                    <apex:column value="{!qw.query.description}" headerValue="Description"/>
+                    <apex:column value="{!qw.query.query}" headervalue="Query"/>
+                    <apex:column value="{!qw.query.errorType}" headerValue="Error Type"/>
+                    <apex:column value="{!qw.query.errorMessage}" headerValue="Failure Cause"/> 
+                </apex:pageBlockTable>
+    	</apex:pageBlock> 
+        
+        <apex:actionSupport event="onchange" reRender="form" />
+        <apex:pageBlock title="Successful Queries" id="passBlock" rendered="{!showPassTable}">
+            <apex:actionSupport event="onchange" reRender="form" />
+            	<apex:pageBlockTable value="{!queriesPassed}" var="qw">
+                    <apex:column value="{!qw.categoryName}" headervalue="Category"/>
+                    <apex:column value="{!qw.query.description}" headerValue="Description"/>
+                    <apex:column value="{!qw.query.query}" headervalue="Query"/>
+                </apex:pageBlockTable>
+    	</apex:pageBlock> 
+        
+        <apex:commandButton action="{!firstPage}" value="Start Over"/>
+	</apex:form>
+</apex:page>
+                

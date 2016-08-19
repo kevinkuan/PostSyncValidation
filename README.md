@@ -1,1 +1,1 @@
-Source code for the Post Sync Entity Level Validatio Apex package for Salesforce
+Source code for the Post Sync Entity Level Validation Apex package for Salesforce
